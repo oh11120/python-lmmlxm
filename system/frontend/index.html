@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>脑肿瘤 MRI 分割系统</title>
+  <link rel="stylesheet" href="/ui/static/style.css" />
+</head>
+<body>
+  <header class="top">
+    <h1>脑肿瘤 MRI 辅助诊断系统</h1>
+    <p>FastAPI + 3D 分割模型服务化推理</p>
+  </header>
+
+  <main class="layout">
+    <section class="panel form-panel">
+      <h2>推理提交</h2>
+      <label>API Token</label>
+      <input id="token" type="password" placeholder="BRATS_API_TOKEN" />
+
+      <label>病例 ID（脱敏）</label>
+      <input id="caseId" type="text" value="demo_case" />
+
+      <label>推理后端</label>
+      <select id="backend">
+        <option value="pytorch">PyTorch</option>
+        <option value="onnx">ONNX Runtime</option>
+        <option value="tensorrt">TensorRT</option>
+      </select>
+
+      <label>上传 4 个模态（flair/t1/t1ce/t2）</label>
+      <input id="files" type="file" multiple accept=".nii" />
+
+      <button id="submitBtn">开始推理</button>
+      <p id="submitMsg"></p>
+
+      <div class="status-box">
+        <p><strong>任务ID:</strong> <span id="taskId">-</span></p>
+        <p><strong>状态:</strong> <span id="taskStatus">-</span></p>
+        <p><strong>进度:</strong> <span id="taskProgress">0%</span></p>
+        <p><strong>消息:</strong> <span id="taskMessage">-</span></p>
+      </div>
+
+      <div class="btn-row">
+        <button id="downloadSeg" disabled>下载分割 NIfTI</button>
+        <button id="downloadPdf" disabled>下载 PDF 报告</button>
+      </div>
+    </section>
+
+    <section class="panel viewer-panel">
+      <h2>多视图分割结果</h2>
+      <label>Mask 透明度: <span id="alphaValue">0.45</span></label>
+      <input id="alpha" type="range" min="0" max="1" step="0.05" value="0.45" />
+
+      <div class="grid">
+        <div class="view">
+          <h3>AXIAL</h3>
+          <div class="stack" id="axialStack">
+            <img id="axialBase" alt="axial base" />
+            <img id="axialMask" alt="axial mask" class="mask" />
+          </div>
+        </div>
+        <div class="view">
+          <h3>SAGITTAL</h3>
+          <div class="stack" id="sagittalStack">
+            <img id="sagittalBase" alt="sagittal base" />
+            <img id="sagittalMask" alt="sagittal mask" class="mask" />
+          </div>
+        </div>
+        <div class="view">
+          <h3>CORONAL</h3>
+          <div class="stack" id="coronalStack">
+            <img id="coronalBase" alt="coronal base" />
+            <img id="coronalMask" alt="coronal mask" class="mask" />
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="/ui/static/app.js"></script>
+</body>
+</html>

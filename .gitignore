@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.venv/
+.DS_Store
+
+artifacts/exp_*/
+artifacts/onnx/
+system/storage/uploads/*
+system/storage/results/*
+system/storage/reports/*
+system/storage/tasks/*
